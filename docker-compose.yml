@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   jobtest:
-    image: ${DOCKER_REGISTRY-}jobtest2
+    image: ${DOCKER_REGISTRY-}jobtest3
     build:
       context: .
-      dockerfile: JobTest/Dockerfile
+      dockerfile: Dockerfile
