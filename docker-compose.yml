@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   jobtest:
-    image: ${DOCKER_REGISTRY-}jobtest3
+    image: ${DOCKER_REGISTRY-}kpicomputation
     build:
       context: .
       dockerfile: Dockerfile

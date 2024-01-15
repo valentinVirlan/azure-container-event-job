@@ -4,25 +4,27 @@ using Newtonsoft.Json;
 using System.Text;
 using JobTest;
 
-Console.WriteLine("Hello, World! Where are you?");
+Console.WriteLine("Hello, World! This should be the latest version.");
 try
 {
-    // var sourceQueueName = Environment.GetEnvironmentVariable("AZURE_STORAGE_QUEUE_NAME");
-    //var serviceBusConnectionString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
-    var sourceQueueName = "landry-queue";
-    var serviceBusConnectionString = "Endpoint=sb://landry-aca.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=7m3yp56/fqMn3ieQtzdZbkZsbTXokwliI+ASbMF/1GI=";
+    var sourceQueueName = Environment.GetEnvironmentVariable("QueueName");
+    var serviceBusConnectionString = Environment.GetEnvironmentVariable("ServiceBusConnection");
     var serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
     var receiver = serviceBusClient.CreateReceiver(sourceQueueName);
     var receivedMessage = await receiver.ReceiveMessageAsync();
 
     if (receivedMessage != null)
     {
+        Console.WriteLine($"Received message = {receivedMessage}");
         var payloadString = Encoding.UTF8.GetString(receivedMessage.Body);
         var payload = JsonConvert.DeserializeObject<KpiRecalculationMessage>(payloadString);
+        Console.WriteLine($"PayloadString= {payloadString}");
         if (payload != null)
         {
 
+            Console.WriteLine($"Message with Id: {payload.Id}");
             Console.WriteLine($"Message with orgId: {payload.OrganizationId}");
+            Console.WriteLine($"Message with taskId: {payload.TaskId}");
             await receiver.CompleteMessageAsync(receivedMessage);
             Console.WriteLine($"All good, process complete for orgId:{payload.OrganizationId}");
         }

@@ -8,6 +8,12 @@ namespace JobTest
 {
     public class KpiRecalculationMessage
     {
-        public String OrganizationId { get; set; }
+        public Guid Id {get; set; }
+
+        public Guid OrganizationId { get; set; }
+
+        public Guid TaskId { get; set; }
+
+        public KpiRecalculationMessage() { }
     }
 }
